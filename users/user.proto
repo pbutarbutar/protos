@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    rpc CreateUser (NewUser) returns (User) {}
+    rpc UserLogin (UserLoginRequest) returns (User) {}
+    rpc SetUserActive (UserActiveRequest) returns (User) {}
+    rpc GetToken (UserName) returns (Token) {}
+    rpc GetOneByEmail (UserByEmail) returns (User) {}
+    rpc GetOneByMobile (UserByMbile) returns (User) {}
+    rpc GetUsersBySchoolCode (UserBySchoolCodes) returns (Users) {}
+    rpc GetUsers (Empty) returns (Users) {}
+}
+
+message NewUser {
+    string id = 1;
+    string email = 2;
+    string password = 3;
+    string fullname = 4;
+    string mobile = 5;
+    string school_code = 6;
+    UserType type_of_user = 7;
+}
+
+message UserLoginRequest {
+    string email = 1;
+    string password = 1;
+}
+
+message UserActiveRequest {
+    string email = 1;
+    bool is_active = 2;
+}
+
+message UserByEmail {
+    string email = 1;
+}
+
+message UserByMbile {
+    string mobile = 1;
+}
+
+message UserBySchoolCodes {
+    repeated string school_code = 1;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string fullname = 3;
+    string mobile = 4;
+    string school_code = 5;
+    SchoolData school_info = 5;
+    UserType type_of_user = 6;
+    bool is_active = 7; 
+    string created_at = 8;
+    string modified_at = 9;
+    string last_date_login = 10;
+    string last_ip_login = 11;
+}
+
+message UserByScUsershoolCodes {
+    repeated User users = 1;
+}
+
+message Token {
+    string access = 1;
+    string refresh = 2;
+}
+
+
+message SchoolData {
+    string id = 1;
+    bool is_lembaga = 2;
+    string parent_school = 3;
+    string school_code = 4;
+    string school_name = 5;
+    string school_NSPN = 6;
+    string school_city = 7;
+    string school_address = 8;
+    string school_phone = 9;
+    string school_email = 10;
+    string created_at = 10;
+}
+
+
+message Empty {}
+
+enum UserType {
+    UNKNOWN_USER_TYPE = 0;
+    STUDENT = 1;
+    PARENT = 2;
+    TEACHER = 3;
+}
